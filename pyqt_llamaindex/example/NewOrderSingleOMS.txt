@@ -1,0 +1,59 @@
+Q: Generate code for sending DMA market order via FIX with params: "Qty":"30", "Side":"sell", "TimeInForce":"Day"?
+A:
+self.fix_env = self.environment.get_list_fix_environment()[0]
+self.fix_manager = FixManager(self.fix_env.sell_side, self.test_id)
+self.nos_message = FixMessageNewOrderSingleOMS(self.data_set)
+self.nos_message.set_default_dma_market()
+self.nos_message.change_parameters({"Side": "2", "OrderQtyData": {"OrderQty":"30"},"TimeInForce":"0"})
+self.fix_manager.send_message_fix_standard(self.nos_message)
+
+###
+
+Q: Generate code for sending DMA market order via FIX with params: ?
+A:
+self.fix_env = self.environment.get_list_fix_environment()[0]
+self.fix_manager = FixManager(self.fix_env.sell_side, self.test_id)
+self.nos_message = FixMessageNewOrderSingleOMS(self.data_set)
+self.nos_message.set_default_dma_market()
+self.fix_manager.send_message_fix_standard(self.nos_message)
+
+###
+
+Q: Generate code for sending DMA market order via FIX with params: Account = Client1?
+A:
+self.fix_env = self.environment.get_list_fix_environment()[0]
+self.fix_manager = FixManager(self.fix_env.sell_side, self.test_id)
+self.nos_message = FixMessageNewOrderSingleOMS(self.data_set)
+self.nos_message.set_default_dma_market()
+self.nos_message.change_parameters({"Account": "Client1"})
+self.fix_manager.send_message_fix_standard(self.nos_message)
+
+Q: Generate code for sending DMA limit order via FIX with params: "Price":"10", "Qty":"40"
+A:
+self.fix_env = self.environment.get_list_fix_environment()[0]
+self.fix_manager = FixManager(self.fix_env.sell_side, self.test_id)
+self.nos_message = FixMessageNewOrderSingleOMS(self.data_set)
+self.nos_message.set_default_dma_limit()
+self.nos_message.change_parameters({"Price": "10", "OrderQtyData": {"OrderQty":"40"}})
+self.fix_manager.send_message_fix_standard(self.nos_message)
+
+###
+
+Q: Generate code for sending DMA limit order via FIX with params: "Account":"Client1"
+A:
+self.fix_env = self.environment.get_list_fix_environment()[0]
+self.fix_manager = FixManager(self.fix_env.sell_side, self.test_id)
+self.nos_message = FixMessageNewOrderSingleOMS(self.data_set)
+self.nos_message.set_default_dma_limit()
+self.nos_message.change_parameters({"Account": "Client1"})
+self.fix_manager.send_message_fix_standard(self.nos_message)
+
+###
+
+Q: Generate code for sending DMA limit order via FIX with params:
+A:
+self.fix_env = self.environment.get_list_fix_environment()[0]
+self.fix_manager = FixManager(self.fix_env.sell_side, self.test_id)
+self.nos_message = FixMessageNewOrderSingleOMS(self.data_set)
+self.nos_message.set_default_dma_limit()
+self.fix_manager.send_message_fix_standard(self.nos_message)

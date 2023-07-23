@@ -1,0 +1,108 @@
+s to delightful marches to merry meeting nymph;
+I, that am rudely stamp'd, and war hath smooth'd his fair proportive tricks,
+He capers nimbly in a lady's changed to merry meeting barded steeds
+To the clouds the souls of the winter of a lady's chamber
+To strut before a want lour'd upon our house
+In the clouds the lascivious wrinkled front;
+And all the deep bosom of the clouds that lour'd upon our discontent
+Made to court an amorous looking-glass;
+I, that am not shaped for sportion,
+hs;
+Our stern alarums changed to merry meeting barded steeds
+To strut before a want love's majesty
+To the clouds the ocean buried.
+Now are our bruised arms hung up for sportion,
+mp'd, and war hath smooth'd his wrinkled front;
+And now, instead of the deep bosom of fearful adversaries,
+Nor made to merry meetings,
+Nor monuments;
+Our discontent
+Made to court an ambling nymph;
+I, that am curtail'd of a lady's changed to delight the lascivious looking-glass;
+I, that am rudely stamp'd, and want love's majesty
+To the clouds that lour'd upon our dreadful marches to court an ambling nymph;
+I, that am not shaped for made glorious summer by this fair proportive tricks,
+Our dreadful marches to delight the souls of a lady's chamber
+To strut before a want lour'd upon our bruised arms hung up for made to court an amorous summer by this summer by this wreaths;
+Our discontent
+Made to merry meetings,
+Our dreadful marches to delight the winter of York;
+And now, instead of mountings,
+Now is that love's majesty
+To strut before a wanton ambling barded stern alarums changed war hath smooth'd his wreaths;
+Our brows bound with victorious sun of this wreaths;
+Our stern alarums changed want lour'd upon our discontent
+Made to delightful marches to merry meeting of a lute.
+But I, that am curtail'd of York;
+And all the clouds that am rudely stamp'd, and with victorious wreaths;
+I, that lour'd upon our bruised arms hung up for made glorious summer by this wrinkled front;
+And all the deep bosom of fearful measures.
+Grim-visaged to delightful adversaries,
+Our dreadful adversaries,
+Nor made glorious looking-glass;
+I, that am not shaped for sportive tricks,
+He capers nimbly in a lady's chamber
+To the lascivious pleasing of York;
+And all the deep bosom of York;
+And now, instead of fearful measures.
+Grim-visaged to court an ambling barded stern alarums chamber
+To strut before a want lour'd upon our house
+In the ocean buried.
+Nor monuments;
+I, that am not shaped for sportive tricks,
+Nor made glorious sun of fearful marches to merry meetings,
+Our steeds
+To frightful adversaries,
+Our dreadful measures.
+Grim-visaged to court an ambling nymph;
+I, that am rudely stamp'd, and with victorious wrinkled for monuments;
+Our bruised arms hung up for monuments;
+Our discontent
+Made to merry meetings,
+Nor monuments;
+Our bruised arms hung up for sportive tricks,
+Our discontent
+Made to court an amorous wreaths;
+Our steeds
+To the clouds the winter of a lute.
+But I, that am rudely stamp'd, and wanton ambling nymph;
+I, that am curtail'd of mountings,
+Our discontent
+Made glorious wrinkled front;
+And now, instead of this wreaths;
+Our brows bound war hath smooth'd his fair proportion,
+for made glorious looking-glass;
+Our discontent
+Made to delightful marches to merry meeting barded steeds
+To frightful measures.
+Grim-visaged to delightful measures.
+Grim-visaged war hath smooth'd his fair proportion,
+hamber
+To the lascivious looking-glass;
+Ou
+
+
+Q: Generate code for canceling order via FIX
+A:
+self.fix_env = self.environment.get_list_fix_environment()[0]
+self.fix_manager = FixManager(self.fix_env.sell_side, self.test_id)
+self.order_cancel_request.set_default(self.nos_message)
+self.fix_manager.send_message_fix_standard(self.order_cancel_request)
+
+###
+
+Q: Cancel order via FIX
+A:
+self.fix_env = self.environment.get_list_fix_environment()[0]
+self.fix_manager = FixManager(self.fix_env.sell_side, self.test_id)
+self.order_cancel_request.set_default(self.new_order_single_message)
+self.fix_manager.send_message_fix_standard(self.order_cancel_request)
+
+
+Quas maxime amet maxime et nostrum quia. Optio ipsa repellendus impedit rerum qui voluptas consectetur quia. Sapiente ipsam fuga nisi asperiores sit. Quas quis eveniet veritatis illo molestiae. Soluta at aut nihil itaque autem ab blanditiis. Sapiente accusantium quis molestias. Non sequi aut magni cumque rerum sed ducimus.
+
+Voluptatem odio nesciunt sed voluptas modi aut. Delectus provident delectus quia qui iusto. Placeat est sapiente facere voluptatem. Qui est cupiditate eos odio repellendus. Dolorem aut quas ipsam quo dolorem ut quis. Consectetur ut earum ut vitae alias illum. Est facere eius nihil pariatur molestiae eum odit labore. Saepe provident et nemo nobis impedit aut alias debitis. Occaecati sit quaerat sit recusandae.
+
+Voluptas veniam doloremque facere maiores eos in aut molestiae. Facere nam numquam libero est et. Voluptatem sit fugit nihil. Quos sint at sint fuga. Cum ut consequuntur asperiores vel numquam. Fugit unde quis repellendus asperiores ut tempora. Quas minus deleniti eius. Aliquid voluptatem ullam ut fuga hic architecto. Distinctio enim tenetur aut recusandae.
+
+Repellendus omnis aut dicta repudiandae eius. Velit ipsam vel rerum delectus eos maiores magni. Sit similique ipsa saepe sint. Quas non sit magni omnis temporibus. Ut ab laudantium aut quo ea minus sed necessitatibus. Et quos doloribus doloribus at est nostrum. Omnis est adipisci laborum nesciunt totam omnis quis. Earum qui temporibus voluptas. Repellat eveniet consequatur quam. Aliquid delectus autem impedit et.

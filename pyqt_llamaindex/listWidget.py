@@ -52,7 +52,7 @@ class FileListWidget(QWidget):
 
     def __setDir(self):
         directory = QFileDialog.getExistingDirectory(self, "Select Directory")
-        ext_lst = ['.txt']
+        ext_lst = ['.txt','.elsx','.csv','.json']
         if directory:
             self.__listWidget.clear()
             filenames = list(filter(lambda x: os.path.splitext(x)[-1] in ext_lst, os.listdir(directory)))

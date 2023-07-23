@@ -1,0 +1,28 @@
+Q: Generate code for verifying execution report
+A:
+self.fix_env = self.environment.get_list_fix_environment()[0]
+self.fix_verifier = FixVerifier(self.fix_env.sell_side, self.test_id)
+self.exec_report = FixMessageExecutionReportOMS(self.data_set)
+self.execution_report_fix.set_default_new(self.nos_message)
+self.fix_verifier.check_fix_message_fix_standard(self.exec_report)
+
+###
+
+Q: Generate code for verifying execution report without next fields: Account,TIF
+A:
+self.fix_env = self.environment.get_list_fix_environment()[0]
+self.fix_verifier = FixVerifier(self.fix_env.sell_side, self.test_id)
+self.exec_report = FixMessageExecutionReportOMS(self.data_set)
+self.execution_report_fix.set_default_new(self.nos_message)
+list_ignore_field = ['Account','TimeInForce']
+self.fix_verifier.check_fix_message_fix_standard(self.exec_report, ignored_fields=list_ignore_field)
+
+###
+
+Q: Verify that order canceled via FIX execution report
+A:
+self.fix_env = self.environment.get_list_fix_environment()[0]
+self.fix_verifier = FixVerifier(self.fix_env.sell_side, self.test_id)
+self.exec_report = FixMessageExecutionReportOMS(self.data_set)
+self.exec_report.set_default_canceled(self.nos_message)
+self.fix_verifier.check_fix_message_fix_standard(self.exec_report)

@@ -1,50 +1,52 @@
-import os
-
-from llama_index import GPTVectorStoreIndex, SimpleDirectoryReader, LLMPredictor, ServiceContext
+from configparser import ConfigParser
 from langchain.chat_models import ChatOpenAI
+from llama_index import GPTVectorStoreIndex, LLMPredictor, ServiceContext
+from llama_index.readers.database import DatabaseReader
 
-# os.environ['OPENAI_API_KEY'] = 'YOUR_API_KEY'
-# this app will set api key to environment variable and save it in openai_ini.ini
-# openai_ini.ini will be generated if api key you entered is valid
+from llama_index.llms.palm import PaLM
+from llama_index.schema import Document
 
 
 class GPTLLamaIndexClass:
-    def __init__(self):
+    def __init__(self, context):
         self.__initVal()
-        self.__init()
+        self.__init(context)
 
     def __initVal(self):
-        self.__directory = './example'
-        self.__model = 'gpt-3.5-turbo'
-        self.__temperature = 0.7
-        self.__streaming = True
-        self.__chunk_size_limit = 512
-        self.__similarity_top_k = 3
+        config = ConfigParser()
+        config.read("config.ini")
 
-    def setDirectory(self, directory):
-        self.__directory = directory
+        self.__model = config.get("General", "model")
+        self.__temperature = config.getfloat("General", "temperature")
+        self.__streaming = config.getboolean("General", "stream")
+        self.__chunk_size = config.getint("General", "chunk_size")
+        self.__similarity_top_k = config.getint("General", "similarity_top_k")
+        self.__db = DatabaseReader(
+            scheme=config.get("DB", "SCHEME"),  # Database Scheme
+            host=config.get("DB", "HOST"),  # Database Host
+            port=config.get("DB", "PORT"),  # Database Port
+            user=config.get("DB", "USER"),  # Database User
+            password=config.get("DB", "PASSWORD"),  # Database Password
+            dbname=config.get("DB", "DBNAME"),  # Database Name
+        )
 
-    def __init(self):
-        documents = SimpleDirectoryReader(self.__directory).load_data()
+    def __init(self, context):
+        table_name_list = [table_name.text for table_name in (self.__db.load_data(query=f"""SELECT table_name
+        FROM information_schema.tables WHERE table_schema = '{context.lower()}' AND table_type = 'BASE TABLE';"""))]
 
-        llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=self.__temperature, model_name=self.__model, streaming=self.__streaming))
+        documents = []
+        for table_name in table_name_list:
+            query = f"SELECT CONCAT('query: ',query ,' answer: ',answer) FROM {context}.{table_name}"
+            documents.append(self.__db.load_data(query=query)[0])
 
-        service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor, chunk_size_limit=self.__chunk_size_limit)
+
+        llm_predictor = LLMPredictor(
+            llm=ChatOpenAI(temperature=self.__temperature, model_name=self.__model, streaming=self.__streaming))
+        service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor, chunk_size=self.__chunk_size)
         index = GPTVectorStoreIndex.from_documents(documents, service_context=service_context)
 
-        self.__query_engine = index.as_query_engine(
-            service_context=service_context,
-            similarity_top_k=self.__similarity_top_k,
-            streaming=True
-        )
+        self.__query_engine = index.as_query_engine(service_context=service_context,
+                                                    similarity_top_k=self.__similarity_top_k, streaming=True)
 
     def getResponse(self, text):
-        response = self.__query_engine.query(
-            text,
-        )
-
-        return response
-
-# BeautifulSoupWebReader
-# DiscordReader
-# GithubRepositoryReader
+        return self.__query_engine.query(text)
