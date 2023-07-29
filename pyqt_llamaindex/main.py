@@ -75,7 +75,20 @@ class MainWindow(QMainWindow):
             QRadioButton {
                 color: #ffffff; /* Белый цвет текста для QRadioButton */
             }
-
+            QRadioButton::indicator {
+            border: 3px solid rgb(52, 59, 72);
+            width: 15px;
+            height: 15px;
+            border-radius: 10px;
+            background: rgb(44, 49, 60);
+            }
+            QRadioButton::indicator:hover {
+                border: 3px solid rgb(58, 66, 81);
+            }
+            QRadioButton::indicator:checked {
+                background: 3px solid rgb(94, 106, 130);
+                border: 3px solid rgb(52, 59, 72);	
+            }
             QLineEdit {
                 background-color: #4c4c70; /* Темно-синий фон QLineEdit */
                 color: #ffffff; /* Белый цвет текста QLineEdit */
