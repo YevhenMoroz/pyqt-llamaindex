@@ -3,9 +3,6 @@ from langchain.chat_models import ChatOpenAI
 from llama_index import GPTVectorStoreIndex, LLMPredictor, ServiceContext
 from llama_index.readers.database import DatabaseReader
 
-from llama_index.llms.palm import PaLM
-from llama_index.schema import Document
-
 
 class GPTLLamaIndexClass:
     def __init__(self, context):

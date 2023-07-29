@@ -1,10 +1,11 @@
 import os
 import sys
+import logging
+from configparser import ConfigParser
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Get the absolute path of the current script file
-from PySide6.QtCore import QTimer
-from PyQt5.QtGui import QMovie
-from PySide6.QtWidgets import QSplashScreen
 
 script_path = os.path.abspath(__file__)
 
@@ -17,7 +18,7 @@ sys.path.insert(0, os.getcwd())  # Add the current directory as well
 import openai
 import requests
 from PyQt5.QtCore import QCoreApplication, Qt, QSettings
-from PyQt5.QtGui import QGuiApplication, QFont, QColor
+from PyQt5.QtGui import QGuiApplication, QFont, QColor, QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow, QHBoxLayout, QLabel, QLineEdit, QPushButton, QWidget, \
     QVBoxLayout, QSplitter, QSizePolicy, QFrame
 
@@ -25,12 +26,14 @@ from pyqt_llamaindex.chatWidget import ChatBrowser, Prompt
 from pyqt_llamaindex.openAiThread import OpenAIThread
 from pyqt_llamaindex.scripts import GPTLLamaIndexClass
 from pyqt_llamaindex.RadioButtonListWidget import RadioButtonListWidget
+
 QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
 QCoreApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)  # HighDPI support
 # qt version should be above 5.14
 QGuiApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
 
 QApplication.setFont(QFont('Arial', 12))
+QApplication.setWindowIcon(QIcon('quod_openai.svg'))
 
 
 class MainWindow(QMainWindow):
@@ -61,6 +64,63 @@ class MainWindow(QMainWindow):
 
     def __initUi(self):
         self.setWindowTitle('AI Assistant')
+        config = ConfigParser()
+        config.read("config.ini")
+        if config.get("General", "theme") == "dark":
+            self.setStyleSheet("""
+            QMainWindow {
+                background-color: #202030; /* Темно-синий фон */
+                color: #ffffff; /* Белый цвет текста */
+            }
+            QRadioButton {
+                color: #ffffff; /* Белый цвет текста для QRadioButton */
+            }
+
+            QLineEdit {
+                background-color: #4c4c70; /* Темно-синий фон QLineEdit */
+                color: #ffffff; /* Белый цвет текста QLineEdit */
+                border: 2px solid #3a3a5c; /* Обводка текстового поля */
+                border-radius: 5px;
+                padding: 5px;
+            }
+            QThread {
+                background-color: #4c4c70; /* Темно-синий фон QThread */
+                color: #4c4c70; /* Белый цвет текста QThread */
+            }
+            QSplitter::handle {
+                background-color: #3a3a5c; /* Темно-синий фон разделителя QSplitter */
+            }
+
+            QWidget {
+                background-color: #202030; /* Темно-синий фон */
+                color: #ffffff; /* Белый цвет текста */
+            }
+            QLabel {
+                color: #ffffff; /* Белый цвет текста для QLabel */
+            }
+            QScrollArea {
+                background-color: #4c4c70; /* Темно-синий фон QScrollArea */
+                color: #ffffff; /* Белый цвет текста QScrollArea */
+            }
+            QScrollBar:vertical {
+                background-color: #4c4c70; /* Темно-синий фон вертикального скроллбара */
+                width: 10px; /* Ширина скроллбара */
+            }
+            QScrollBar::handle:vertical {
+                background-color: #3a3a5c; /* Темно-синий фон ползунка вертикального скроллбара */
+                min-height: 20px; /* Минимальная высота ползунка */
+            }
+            QPushButton {
+                background-color: #4c4c70; /* Темно-синий фон кнопки */
+                color: #ffffff; /* Белый цвет текста кнопки */
+                border: none;
+                padding: 8px;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #3a3a5c; /* Темно-синий фон кнопки при наведении */
+            }
+        """)
 
         self.__apiCheckPreviewLbl = QLabel()
         self.__apiCheckPreviewLbl.setFont(QFont('Arial', 10))
@@ -152,7 +212,6 @@ class MainWindow(QMainWindow):
         finally:
             self.__apiCheckPreviewLbl.show()
 
-
     def __extracted_from_setApi(self):
         api_key = self.__apiLineEdit.text()
         response = requests.get('https://api.openai.com/v1/engines', headers={'Authorization': f'Bearer {api_key}'})
@@ -166,14 +225,12 @@ class MainWindow(QMainWindow):
         self.__apiCheckPreviewLbl.setStyleSheet(f"color: {QColor(0, 200, 0).name()}")
         self.__apiCheckPreviewLbl.setText('API key is valid')
 
-
-
     def __sendChat(self):
         query_text = self.__lineEdit.toPlainText()
         self.__browser.showText(query_text, True)
 
         self.__lineEdit.setEnabled(False)
-
+        self.__gptLLamaIndexClass = GPTLLamaIndexClass(self.__radioButtonListWidget.get_checked_button())
         self.__t = OpenAIThread(self.__gptLLamaIndexClass, query_text)
         self.__t.replyGenerated.connect(self.__browser.showText)
         self.__prompt.getTextEdit().clear()
@@ -184,9 +241,6 @@ class MainWindow(QMainWindow):
         self.__lineEdit.setEnabled(True)
         self.__lineEdit.setFocus()
 
-    def __setTextInBrowser(self, txt_file):
-        with open(txt_file, 'r', encoding='utf-8') as f:
-            self.__txtBrowser.setText(f.read())
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

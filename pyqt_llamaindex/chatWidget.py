@@ -1,3 +1,5 @@
+from configparser import ConfigParser
+
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtWidgets import QScrollArea, QVBoxLayout, QWidget, QLabel, QHBoxLayout, QTextEdit
 
@@ -21,6 +23,8 @@ class ChatBrowser(QScrollArea):
         chatLbl = QLabel(text)
         chatLbl.setWordWrap(True)
         chatLbl.setTextInteractionFlags(Qt.TextSelectableByMouse)
+        config = ConfigParser()
+        config.read("config.ini")
         if user_f:
             chatLbl.setStyleSheet('QLabel { padding: 1em }')
             chatLbl.setAlignment(Qt.AlignRight)
@@ -29,7 +33,11 @@ class ChatBrowser(QScrollArea):
             if isinstance(lbl, QLabel) and lbl.alignment() == Qt.AlignLeft:
                 lbl.setText(lbl.text() + text)
                 return
-            chatLbl.setStyleSheet('QLabel { background-color: #DDD; padding: 1em }')
+            if config.get("General", "theme") == "dark":
+                chatLbl.setStyleSheet('QLabel { background-color: #4c4c70; padding: 1em }')
+            else:
+                chatLbl.setStyleSheet('QLabel { background-color: #DDD; padding: 1em }')
+
             chatLbl.setAlignment(Qt.AlignLeft)
             chatLbl.setOpenExternalLinks(True)
         self.widget().layout().addWidget(chatLbl)
