@@ -12,7 +12,7 @@ class GPTLLamaIndexClass:
     def __initVal(self):
         config = ConfigParser()
         config.read("config.ini")
-
+        self.general_schema = 'general'
         self.__model = config.get("General", "model")
         self.__temperature = config.getfloat("General", "temperature")
         self.__streaming = config.getboolean("General", "stream")
@@ -28,14 +28,19 @@ class GPTLLamaIndexClass:
         )
 
     def __init(self, context):
-        table_name_list = [table_name.text for table_name in (self.__db.load_data(query=f"""SELECT table_name
-        FROM information_schema.tables WHERE table_schema = '{context.lower()}' AND table_type = 'BASE TABLE';"""))]
+        context_table_name_list = [table_name.text for table_name in self.__db.load_data(query=f"""SELECT table_name
+        FROM information_schema.tables WHERE table_schema = '{context.lower()}' AND table_type = 'BASE TABLE';""")]
+
+        general_table_name_list = [table_name.text for table_name in self.__db.load_data(query=f"""SELECT table_name
+        FROM information_schema.tables WHERE table_schema = '{self.general_schema}' AND table_type = 'BASE TABLE';""")]
 
         documents = []
-        for table_name in table_name_list:
+        for table_name in context_table_name_list:
             query = f"SELECT CONCAT('query: ',query ,' answer: ',answer) FROM {context}.{table_name}"
             documents.append(self.__db.load_data(query=query)[0])
-
+        for table_name in general_table_name_list:
+            query = f"SELECT CONCAT('query: ',query ,' answer: ',answer) FROM {self.general_schema}.{table_name}"
+            documents.append(self.__db.load_data(query=query)[0])
 
         llm_predictor = LLMPredictor(
             llm=ChatOpenAI(temperature=self.__temperature, model_name=self.__model, streaming=self.__streaming))

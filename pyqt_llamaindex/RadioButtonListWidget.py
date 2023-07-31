@@ -2,7 +2,8 @@ from PyQt5.QtWidgets import QWidget, QRadioButton, QVBoxLayout
 
 
 class RadioButtonListWidget(QWidget):
-    context_list = ["Algo", "EQ", "FX", "WebAdmin", "WebTrading", "Mobile", "PERF"]
+    context_list = ["Algo", "CON", "EQ", "FX", "MobileTrading", "PERF", "WebAdmin", "WebTrading"]
+
     def __init__(self):
         super().__init__()
         self.__init_ui()

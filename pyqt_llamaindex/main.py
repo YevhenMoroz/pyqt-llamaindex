@@ -3,7 +3,8 @@ import sys
 import logging
 from configparser import ConfigParser
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename="llama_index.log", filemode='a', level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Get the absolute path of the current script file
 
@@ -162,7 +163,7 @@ class MainWindow(QMainWindow):
         self.__lineEdit = self.__prompt.getTextEdit()
         self.__lineEdit.returnPressed.connect(self.__sendChat)
         self.__browser = ChatBrowser()
-        
+
         lay = QVBoxLayout()
         lay.addWidget(self.__browser)
         lay.addWidget(self.__prompt)
@@ -171,7 +172,6 @@ class MainWindow(QMainWindow):
 
         rightWidget = QWidget()
         rightWidget.setLayout(lay)
-
 
         sep = QFrame()
         sep.setFrameShape(QFrame.HLine)
