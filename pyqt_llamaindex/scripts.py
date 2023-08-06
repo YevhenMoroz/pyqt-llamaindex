@@ -1,7 +1,12 @@
+import logging
 from configparser import ConfigParser
+
 from langchain.chat_models import ChatOpenAI
 from llama_index import GPTVectorStoreIndex, LLMPredictor, ServiceContext
 from llama_index.readers.database import DatabaseReader
+
+logging.basicConfig(filename="llama_index.log", filemode='a', level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 class GPTLLamaIndexClass:
@@ -37,10 +42,10 @@ class GPTLLamaIndexClass:
         documents = []
         for table_name in context_table_name_list:
             query = f"SELECT CONCAT('query: ',query ,' answer: ',answer) FROM {context}.{table_name}"
-            documents.append(self.__db.load_data(query=query)[0])
+            documents.extend(self.__db.load_data(query=query))
         for table_name in general_table_name_list:
             query = f"SELECT CONCAT('query: ',query ,' answer: ',answer) FROM {self.general_schema}.{table_name}"
-            documents.append(self.__db.load_data(query=query)[0])
+            documents.extend(self.__db.load_data(query=query))
 
         llm_predictor = LLMPredictor(
             llm=ChatOpenAI(temperature=self.__temperature, model_name=self.__model, streaming=self.__streaming))

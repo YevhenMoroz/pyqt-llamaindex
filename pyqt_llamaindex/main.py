@@ -44,7 +44,8 @@ class MainWindow(QMainWindow):
         self.__apiLineEdit = QLineEdit()
         self.__prompt = Prompt()
         self.__apiCheckPreviewLbl = QLabel()
-
+        self.config = ConfigParser()
+        self.config.read("config.ini")
         self.__initVal()
         self.__initUi()
 
@@ -65,9 +66,7 @@ class MainWindow(QMainWindow):
 
     def __initUi(self):
         self.setWindowTitle('AI Assistant')
-        config = ConfigParser()
-        config.read("config.ini")
-        if config.get("General", "theme") == "dark":
+        if self.config.get("General", "theme") == "dark":
             self.setStyleSheet("""
             QMainWindow {
                 background-color: #202030; /* Темно-синий фон */
